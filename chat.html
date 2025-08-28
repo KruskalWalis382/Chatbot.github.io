@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Chat Hub</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #chat-box {
+      width: 80%;
+      max-width: 400px;
+      height: 300px;
+      background: #222;
+      border: 2px solid #ffbf00;
+      border-radius: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .message {
+      background: #333;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 5px 0;
+      max-width: 80%;
+    }
+    .user {
+      background: #ffbf00;
+      color: #111;
+      align-self: flex-end;
+    }
+    .bot {
+      background: #444;
+      align-self: flex-start;
+    }
+    #chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+    #input-container {
+      display: flex;
+      width: 80%;
+      max-width: 400px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    button {
+      background: #ffbf00;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #111;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Mini Chat Hub</h1>
+  <div id="chat-box">
+    <div id="chat-container"></div>
+  </div>
+  <div id="input-container">
+    <input type="text" id="message-input" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chat-container');
+    const messageInput = document.getElementById('message-input');
+
+    const botReplies = [
+      "Hey there! 👋",
+      "I'm just a simple bot, but I'm learning fast. 🤖",
+      "That sounds interesting!",
+      "Can you tell me more?",
+      "Haha, I like that!",
+      "Let's keep chatting!",
+      "I see what you mean. 😉",
+      "Cool! Want to ask me something else?"
+    ];
+
+    function sendMessage() {
+      const message = messageInput.value.trim();
+      if (message === "") return;
+
+      // User message
+      addMessage(message, "user");
+
+      // Clear input
+      messageInput.value = "";
+
+      // Bot reply after 1 second
+      setTimeout(() => {
+        const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        addMessage(randomReply, "bot");
+      }, 1000);
+    }
+
+    function addMessage(text, sender) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message', sender);
+      messageElement.textContent = text;
+      chatContainer.appendChild(messageElement);
+
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    messageInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
